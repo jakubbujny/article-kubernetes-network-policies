@@ -9,6 +9,6 @@ spec:
     - name: ubuntu
       image: ubuntu:18.04
       command: ["bash", "-c"]
-      args: ["while true; do sleep 1; done"]
+      args: ["apt-get update && apt-get install -y curl python3 && while true; do sleep 1; done"]
       ports:
         - containerPort: 80
