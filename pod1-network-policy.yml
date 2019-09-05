@@ -2,34 +2,11 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: default
-  namespace: network-policy-example-restricted
-spec:
-  podSelector:
-    matchLabels: {}
-  policyTypes:
-    - Egress
-    - Ingress
-  egress:
-    - to:
-        - namespaceSelector:
-            matchLabels:
-              name: kube-system
-      ports:
-        - protocol: UDP
-          port: 53
-
-
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: allow-ingress-to-nginx
-  namespace: network-policy-example-restricted
+  name: allow-ingress-to-webserver
 spec:
   podSelector:
     matchLabels:
-      app: nginx
+      app: ubuntu1
   policyTypes:
     - Ingress
   ingress:
@@ -38,4 +15,23 @@ spec:
             cidr: 0.0.0.0/0
       ports:
         - port: 80
+          protocol: TCP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-egress-to-tls
+spec:
+  podSelector:
+    matchLabels:
+      app: ubuntu1
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 443
           protocol: TCP
