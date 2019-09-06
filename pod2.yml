@@ -10,5 +10,3 @@ spec:
       image: ubuntu:18.04
       command: ["bash", "-c"]
       args: ["apt-get update && apt-get install -y curl && while true; do sleep 1; done"]
-      ports:
-        - containerPort: 80
